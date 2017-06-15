@@ -1,19 +1,17 @@
 package eightQueens;
 
-import java.util.Arrays;
-
 /**
  * Created by btamara on 2017.06.15..
  */
 public class NQueens {
 
-    static Integer[] placeOfTheQueens;
+    Integer[] queensList;
 
     public NQueens (Integer n){
-        placeOfTheQueens = new Integer[n];
+        queensList = new Integer[n];
     }
 
-    public void printQueens(Integer[] placeOfTheQueens) {
+    public void printTheBoard(Integer[] placeOfTheQueens) {
         for (int i = 0; i < placeOfTheQueens.length; i++) {
             for (int j = 0; j < placeOfTheQueens.length; j++) {
                 if (placeOfTheQueens[i] == j) {
@@ -24,15 +22,39 @@ public class NQueens {
             }
             System.out.println();
         }
+        System.out.println();
     }
 
-    public static void main(String[] args) {
-        NQueens nQueens = new NQueens(3);
-        placeOfTheQueens[0] = 0;
-        placeOfTheQueens[1] = 1;
-        placeOfTheQueens[2] = 2;
-        nQueens.printQueens(placeOfTheQueens);
-        System.out.println(Arrays.deepToString(placeOfTheQueens));
+    public boolean canPlaceQueen(Integer row, Integer column) {
+        for (int i = 0; i < row; i++) {
+            if (queensList[i] == column)
+            {
+                System.out.println("not a possible way");
+                return false;
+            }
+            if((i - row) == (queensList[i] - column)){
+                System.out.println("not a possible way");
+                return false;
+            }
+            if((i - row) == (column - queensList[i])){
+                System.out.println("not a possible way");
+                return false;
+            }
+        }
+        return true;
+    }
 
+    public void placeNqueens(Integer row, Integer numberOfQueens) {
+
+        for (int i = 0; i < numberOfQueens; i++) {
+            if (canPlaceQueen(row, i) == true) {
+                queensList[row] = i;
+                if (row == numberOfQueens - 1) {
+                    printTheBoard(queensList);
+                } else {
+                    placeNqueens(row + 1, numberOfQueens);
+                }
+            }
+        }
     }
 }
